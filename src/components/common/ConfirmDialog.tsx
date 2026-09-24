@@ -40,7 +40,6 @@ export function ConfirmDialog({
             {confirmLabel}
           </AlertDialogAction>
         </AlertDialogFooter>
-      </AlertDialog Footer>
       </AlertDialogContent>
     </AlertDialog>
   );
