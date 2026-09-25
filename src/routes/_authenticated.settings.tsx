@@ -39,7 +39,7 @@ function SettingsPage() {
         className="panel space-y-5 p-5"
         onSubmit={(e) => {
           e.preventDefault();
-          if (!form.organization_name.trim()) return toast.error("Organization name is required");
+          if (!form.organization_name.trim()) { toast.error("Organization name is required"); return; }
           save.mutate(form, { onSuccess: () => toast.success("Settings saved") });
         }}
       >

@@ -24,14 +24,14 @@ import { formatShortDate, initials, PRIORITY_LABELS, STATUS_LABELS, STATUS_ORDER
 import type { Task, TaskPriority, TaskStatus, TaskWithMeta, WeekNumber } from "@/types";
 
 interface TaskSearch {
-  q?: string;
-  new?: boolean;
+  q?: string | undefined;
+  new?: boolean | undefined;
 }
 
 export const Route = createFileRoute("/_authenticated/tasks")({
   validateSearch: (search: Record<string, unknown>): TaskSearch => ({
-    q: typeof search.q === "string" ? search.q : undefined,
-    new: search.new === true || search.new === "true" ? true : undefined,
+    q: typeof search["q"] === "string" ? search["q"] : undefined,
+    new: search["new"] === true || search["new"] === "true" ? true : undefined,
   }),
   head: () => ({
     meta: [
