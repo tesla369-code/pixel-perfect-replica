@@ -39,7 +39,7 @@ export function formatShortDate(value: string) {
 
 export function monthLabel(month: string) {
   const [y, m] = month.split("-").map(Number);
-  return new Date(y, m - 1, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  return new Date(y ?? 2000, (m ?? 1) - 1, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" });
 }
 
 export function currentWeekNumber(date = new Date()): WeekNumber {
