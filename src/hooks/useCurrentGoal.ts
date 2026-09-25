@@ -14,7 +14,7 @@ export function useCurrentGoal(preferredId?: string) {
     }
     const now = new Date();
     const key = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-    return goals.find((g) => g.month === key) ?? goals[0];
+    return goals.find((g) => g.month === key) ?? goals[0] ?? null;
   }, [goals, preferredId]);
 
   return { goal, goals, isLoading };
