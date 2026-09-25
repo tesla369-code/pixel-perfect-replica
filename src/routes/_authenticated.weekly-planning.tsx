@@ -16,16 +16,16 @@ import { currentWeekNumber, formatDate, formatShortDate, monthLabel } from "@/li
 import type { TaskWithMeta, WeekNumber } from "@/types";
 
 interface WeekSearch {
-  week?: WeekNumber;
-  goal?: string;
+  week?: WeekNumber | undefined;
+  goal?: string | undefined;
 }
 
 export const Route = createFileRoute("/_authenticated/weekly-planning")({
   validateSearch: (search: Record<string, unknown>): WeekSearch => {
-    const week = Number(search.week);
+    const week = Number(search["week"]);
     return {
       week: week >= 1 && week <= 4 ? (week as WeekNumber) : undefined,
-      goal: typeof search.goal === "string" ? search.goal : undefined,
+      goal: typeof search["goal"] === "string" ? search["goal"] : undefined,
     };
   },
   head: () => ({
