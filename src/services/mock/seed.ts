@@ -180,7 +180,7 @@ export function buildSeed(today = new Date()): SeedData {
           notes: i % 4 === 0 ? "Client asked for an extra round of revisions." : "",
           created_at: createdAt,
           completed_at:
-            status === "completed" ? new Date(y, m - 1, Math.min(lastDay, dueDay)).toISOString() : null,
+            status === "completed" ? new Date(y, (m ?? 1) - 1, Math.min(lastDay, dueDay)).toISOString() : null,
         });
       }
     });
