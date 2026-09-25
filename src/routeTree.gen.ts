@@ -12,9 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated.index'
+import { Route as AuthenticatedCalendarRouteImport } from './routes/_authenticated.calendar'
 import { Route as AuthenticatedEmployeesRouteImport } from './routes/_authenticated.employees'
 import { Route as AuthenticatedMonthlyGoalsRouteImport } from './routes/_authenticated.monthly-goals'
 import { Route as AuthenticatedOverdueRouteImport } from './routes/_authenticated.overdue'
+import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated.reports'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated.settings'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated.tasks'
 import { Route as AuthenticatedWeeklyPlanningRouteImport } from './routes/_authenticated.weekly-planning'
 
@@ -30,6 +33,11 @@ const LoginRoute = LoginRouteImport.update({
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedCalendarRoute = AuthenticatedCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedEmployeesRoute = AuthenticatedEmployeesRouteImport.update({
@@ -48,6 +56,16 @@ const AuthenticatedOverdueRoute = AuthenticatedOverdueRouteImport.update({
   path: '/overdue',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
@@ -63,17 +81,23 @@ const AuthenticatedWeeklyPlanningRoute =
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/login': typeof LoginRoute
+  '/calendar': typeof AuthenticatedCalendarRoute
   '/employees': typeof AuthenticatedEmployeesRoute
   '/monthly-goals': typeof AuthenticatedMonthlyGoalsRoute
   '/overdue': typeof AuthenticatedOverdueRoute
+  '/reports': typeof AuthenticatedReportsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/weekly-planning': typeof AuthenticatedWeeklyPlanningRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/calendar': typeof AuthenticatedCalendarRoute
   '/employees': typeof AuthenticatedEmployeesRoute
   '/monthly-goals': typeof AuthenticatedMonthlyGoalsRoute
   '/overdue': typeof AuthenticatedOverdueRoute
+  '/reports': typeof AuthenticatedReportsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/weekly-planning': typeof AuthenticatedWeeklyPlanningRoute
   '/': typeof AuthenticatedIndexRoute
@@ -82,9 +106,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
+  '/_authenticated/calendar': typeof AuthenticatedCalendarRoute
   '/_authenticated/employees': typeof AuthenticatedEmployeesRoute
   '/_authenticated/monthly-goals': typeof AuthenticatedMonthlyGoalsRoute
   '/_authenticated/overdue': typeof AuthenticatedOverdueRoute
+  '/_authenticated/reports': typeof AuthenticatedReportsRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/weekly-planning': typeof AuthenticatedWeeklyPlanningRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
@@ -94,17 +121,23 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/calendar'
     | '/employees'
     | '/monthly-goals'
     | '/overdue'
+    | '/reports'
+    | '/settings'
     | '/tasks'
     | '/weekly-planning'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
+    | '/calendar'
     | '/employees'
     | '/monthly-goals'
     | '/overdue'
+    | '/reports'
+    | '/settings'
     | '/tasks'
     | '/weekly-planning'
     | '/'
@@ -112,9 +145,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/login'
+    | '/_authenticated/calendar'
     | '/_authenticated/employees'
     | '/_authenticated/monthly-goals'
     | '/_authenticated/overdue'
+    | '/_authenticated/reports'
+    | '/_authenticated/settings'
     | '/_authenticated/tasks'
     | '/_authenticated/weekly-planning'
     | '/_authenticated/'
@@ -148,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/calendar': {
+      id: '/_authenticated/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof AuthenticatedCalendarRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/employees': {
       id: '/_authenticated/employees'
       path: '/employees'
@@ -169,6 +212,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOverdueRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/reports': {
+      id: '/_authenticated/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AuthenticatedReportsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/tasks': {
       id: '/_authenticated/tasks'
       path: '/tasks'
@@ -187,18 +244,24 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedCalendarRoute: typeof AuthenticatedCalendarRoute
   AuthenticatedEmployeesRoute: typeof AuthenticatedEmployeesRoute
   AuthenticatedMonthlyGoalsRoute: typeof AuthenticatedMonthlyGoalsRoute
   AuthenticatedOverdueRoute: typeof AuthenticatedOverdueRoute
+  AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedWeeklyPlanningRoute: typeof AuthenticatedWeeklyPlanningRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedCalendarRoute: AuthenticatedCalendarRoute,
   AuthenticatedEmployeesRoute: AuthenticatedEmployeesRoute,
   AuthenticatedMonthlyGoalsRoute: AuthenticatedMonthlyGoalsRoute,
   AuthenticatedOverdueRoute: AuthenticatedOverdueRoute,
+  AuthenticatedReportsRoute: AuthenticatedReportsRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedWeeklyPlanningRoute: AuthenticatedWeeklyPlanningRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,

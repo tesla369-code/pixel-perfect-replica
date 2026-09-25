@@ -18,8 +18,8 @@ export const Route = createFileRoute("/_authenticated/reports")({
 });
 
 function ReportsPage() {
-  const goal = useCurrentGoal();
-  const goalId = (goal as { goal?: { id: string } } | undefined)?.goal?.id ?? (goal as { id?: string } | undefined)?.id;
+  const { goal } = useCurrentGoal();
+  const goalId = goal?.id;
   const { data: summary } = useMonthlySummary(goalId);
   const { data: employees = [] } = useEmployees();
   const { data: tasks = [] } = useTasks();
