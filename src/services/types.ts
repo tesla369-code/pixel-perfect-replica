@@ -47,6 +47,8 @@ export interface DataService {
   deleteTask(id: ID): Promise<void>;
   listTaskComments(taskId: ID): Promise<TaskComment[]>;
   addTaskComment(taskId: ID, body: string): Promise<TaskComment>;
+  updateTaskComment(id: ID, body: string): Promise<TaskComment>;
+  deleteTaskComment(id: ID): Promise<void>;
 
   // aggregates
   getMonthlySummary(monthlyGoalId: ID): Promise<MonthlySummary>;
@@ -55,6 +57,8 @@ export interface DataService {
   listNotifications(): Promise<AppNotification[]>;
   markNotificationRead(id: ID): Promise<void>;
   markAllNotificationsRead(): Promise<void>;
+  deleteNotification(id: ID): Promise<void>;
+  clearNotifications(): Promise<void>;
   listActivity(limit?: number): Promise<ActivityLog[]>;
   getSettings(): Promise<Settings>;
   updateSettings(input: Partial<Settings>): Promise<Settings>;

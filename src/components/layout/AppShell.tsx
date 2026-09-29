@@ -16,6 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { useNotificationMutations, useNotifications } from "@/hooks/useData";
+import { Trash2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
@@ -75,7 +76,7 @@ function Brand() {
 
 function NotificationsBell() {
   const { data: notifications = [] } = useNotifications();
-  const { markAllRead, markRead } = useNotificationMutations();
+  const { markAllRead, markRead, remove, clearAll } = useNotificationMutations();
   const unread = notifications.filter((n) => !n.read).length;
 
   return (
@@ -96,29 +97,45 @@ function NotificationsBell() {
       <PopoverContent align="end" className="w-80 p-0">
         <div className="flex items-center justify-between border-b border-border px-3 py-2">
           <span className="text-sm font-medium">Notifications</span>
-          <button
-            className="text-[11px] text-muted-foreground hover:text-foreground"
-            onClick={() => markAllRead.mutate()}
-          >
-            Mark all read
-          </button>
+          <div className="flex gap-3">
+            <button
+              className="text-[11px] text-muted-foreground hover:text-foreground"
+              onClick={() => markAllRead.mutate()}
+            >
+              Mark all read
+            </button>
+            <button
+              className="text-[11px] text-muted-foreground hover:text-bad"
+              onClick={() => clearAll.mutate()}
+            >
+              Clear all
+            </button>
+          </div>
         </div>
         <div className="max-h-80 overflow-y-auto">
           {notifications.length === 0 ? (
             <p className="px-3 py-6 text-center text-sm text-muted-foreground">You're all caught up.</p>
           ) : (
             notifications.map((n) => (
-              <button
+              <div
                 key={n.id}
-                onClick={() => markRead.mutate(n.id)}
-                className="block w-full border-b border-border px-3 py-2.5 text-left last:border-0 hover:bg-accent"
+                className="group flex items-start gap-2 border-b border-border px-3 py-2.5 last:border-0 hover:bg-accent"
               >
-                <div className="flex items-center gap-2">
-                  {!n.read ? <span className="size-1.5 shrink-0 rounded-full bg-brand" /> : null}
-                  <span className="text-[13px] font-medium">{n.title}</span>
-                </div>
-                <p className="mt-0.5 text-[11px] text-muted-foreground">{n.body}</p>
-              </button>
+                <button onClick={() => markRead.mutate(n.id)} className="min-w-0 flex-1 text-left">
+                  <div className="flex items-center gap-2">
+                    {!n.read ? <span className="size-1.5 shrink-0 rounded-full bg-brand" /> : null}
+                    <span className="text-[13px] font-medium">{n.title}</span>
+                  </div>
+                  <p className="mt-0.5 text-[11px] text-muted-foreground">{n.body}</p>
+                </button>
+                <button
+                  aria-label="Delete notification"
+                  onClick={() => remove.mutate(n.id)}
+                  className="text-muted-foreground hover:text-bad"
+                >
+                  <Trash2 className="size-3.5" />
+                </button>
+              </div>
             ))
           )}
         </div>
