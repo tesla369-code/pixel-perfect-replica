@@ -138,6 +138,28 @@ export function useNotificationMutations() {
   return {
     markRead: useMutation({ mutationFn: (id: ID) => dataService.markNotificationRead(id), onSuccess }),
     markAllRead: useMutation({ mutationFn: () => dataService.markAllNotificationsRead(), onSuccess }),
+    remove: useMutation({ mutationFn: (id: ID) => dataService.deleteNotification(id), onSuccess }),
+    clearAll: useMutation({ mutationFn: () => dataService.clearNotifications(), onSuccess }),
+  };
+}
+
+export const useTaskComments = (taskId?: ID) =>
+  useQuery({
+    queryKey: queryKeys.comments(taskId ?? "none"),
+    queryFn: () => dataService.listTaskComments(taskId!),
+    enabled: Boolean(taskId),
+  });
+
+export function useCommentMutations(taskId?: ID) {
+  const qc = useQueryClient();
+  const onSuccess = () => qc.invalidateQueries({ queryKey: queryKeys.comments(taskId ?? "none") });
+  return {
+    create: useMutation({ mutationFn: (body: string) => dataService.addTaskComment(taskId!, body), onSuccess }),
+    update: useMutation({
+      mutationFn: ({ id, body }: { id: ID; body: string }) => dataService.updateTaskComment(id, body),
+      onSuccess,
+    }),
+    remove: useMutation({ mutationFn: (id: ID) => dataService.deleteTaskComment(id), onSuccess }),
   };
 }
 

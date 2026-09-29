@@ -309,6 +309,21 @@ class MockDataService implements DataService {
     return delay(comment);
   }
 
+  async updateTaskComment(id: ID, body: string): Promise<TaskComment> {
+    const existing = this.db.comments.find((c) => c.id === id);
+    if (!existing) throw new Error("Comment not found");
+    const comment = { ...existing, body };
+    this.db.comments = this.db.comments.map((c) => (c.id === id ? comment : c));
+    this.persist();
+    return delay(comment);
+  }
+
+  async deleteTaskComment(id: ID): Promise<void> {
+    this.db.comments = this.db.comments.filter((c) => c.id !== id);
+    this.persist();
+    return delay(undefined);
+  }
+
   // ---------- aggregates ----------
   async getMonthlySummary(monthlyGoalId: ID): Promise<MonthlySummary> {
     const goal = this.db.monthlyGoals.find((g) => g.id === monthlyGoalId) ?? null;
@@ -358,6 +373,18 @@ class MockDataService implements DataService {
 
   async markAllNotificationsRead(): Promise<void> {
     this.db.notifications = this.db.notifications.map((n) => ({ ...n, read: true }));
+    this.persist();
+    return delay(undefined);
+  }
+
+  async deleteNotification(id: ID): Promise<void> {
+    this.db.notifications = this.db.notifications.filter((n) => n.id !== id);
+    this.persist();
+    return delay(undefined);
+  }
+
+  async clearNotifications(): Promise<void> {
+    this.db.notifications = [];
     this.persist();
     return delay(undefined);
   }

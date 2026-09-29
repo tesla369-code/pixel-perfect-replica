@@ -4,6 +4,7 @@ import { PriorityBadge, StatusBadge } from "@/components/common/Badges";
 import { formatDate } from "@/lib/task-utils";
 import { useEmployees } from "@/hooks/useData";
 import type { TaskWithMeta } from "@/types";
+import { TaskComments } from "@/components/tasks/TaskComments";
 
 export function TaskDetailSheet({
   task,
@@ -60,6 +61,8 @@ export function TaskDetailSheet({
                 Edit task
               </Button>
             ) : null}
+
+            <TaskComments taskId={task.id} />
           </>
         ) : null}
       </SheetContent>
